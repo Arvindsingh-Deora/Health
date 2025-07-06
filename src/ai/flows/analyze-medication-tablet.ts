@@ -16,12 +16,14 @@ const AnalyzeMedicationTabletInputSchema = z.object({
   photoDataUri: z
     .string()
     .describe(
-      'A photo of a medication tablet, as a data URI that must include a MIME type and use Base64 encoding. Expected format: \'data:<mimetype>;base64,<encoded_data>\'.'    ),
+      'A photo of a medication tablet, as a data URI that must include a MIME type and use Base64 encoding. Expected format: \'data:<mimetype>;base64,<encoded_data>\'.'
+    ),
 });
 export type AnalyzeMedicationTabletInput = z.infer<typeof AnalyzeMedicationTabletInputSchema>;
 
 const AnalyzeMedicationTabletOutputSchema = z.object({
-  summary: z.string().describe('A summary of the medication tablet, including its benefits, risks, and usage guidelines.'),
+  benefits: z.string().describe("A summary of the medication's benefits and intended use. List the key points."),
+  risks: z.string().describe('A summary of the potential risks, side effects, and contraindications. List the key points.'),
 });
 export type AnalyzeMedicationTabletOutput = z.infer<typeof AnalyzeMedicationTabletOutputSchema>;
 
@@ -33,9 +35,13 @@ const prompt = ai.definePrompt({
   name: 'analyzeMedicationTabletPrompt',
   input: {schema: AnalyzeMedicationTabletInputSchema},
   output: {schema: AnalyzeMedicationTabletOutputSchema},
-  prompt: `You are a pharmacist. A user has provided an image of a medication tablet. You will provide a summary of the medication tablet, including its known benefits, risks, and usage guidelines.
+  prompt: `You are a pharmacist. A user has provided an image of a medication tablet. You will identify the tablet and provide a summary of its known benefits (pros) and potential risks (cons).
 
-  Here is the image of the medication tablet: {{media url=photoDataUri}}`,
+- For benefits, describe what the medication is used for and how it helps.
+- For risks, list common side effects and important warnings.
+- Structure your response clearly under the headings of benefits and risks.
+
+Here is the image of the medication tablet: {{media url=photoDataUri}}`,
 });
 
 const analyzeMedicationTabletFlow = ai.defineFlow(

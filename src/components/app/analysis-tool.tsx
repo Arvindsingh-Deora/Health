@@ -86,7 +86,7 @@ export function AnalysisTool() {
             const result = await analyzeMedicationTablet({ photoDataUri });
             analysisResult = result;
             conditionForTool = "Medication Tablet";
-            analysisResultForTool = result.summary;
+            analysisResultForTool = `Benefits: ${result.benefits}\nRisks: ${result.risks}`;
           }
 
           setResults(analysisResult);
