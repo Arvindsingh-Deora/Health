@@ -1,6 +1,5 @@
 import { AnalysisTool } from '@/components/app/analysis-tool';
 import { EducationalContent } from '@/components/app/educational-content';
-import { AppFooter } from '@/components/app/footer';
 import { AppHeader } from '@/components/app/header';
 
 export default function Home() {
@@ -17,7 +16,6 @@ export default function Home() {
           </div>
         </div>
       </main>
-      <AppFooter />
     </div>
   );
 }
